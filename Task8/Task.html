@@ -1,0 +1,312 @@
+html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced DOM Manipulation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            width: 70%;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        /* To-Do List */
+
+        input[type="text"] {
+            padding: 10px;
+            width: 50%;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 3px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        #addBtn {
+            background-color: green;
+        }
+
+        .up {
+            background-color: blue;
+        }
+
+        .down {
+            background-color: orange;
+        }
+
+        .delete {
+            background-color: red;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #eee;
+            padding: 10px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        /* Chessboard */
+
+        #chessboard {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            grid-template-rows: repeat(8, 60px);
+            justify-content: center;
+            margin: 20px auto;
+            border: 3px solid black;
+            width: fit-content;
+        }
+
+        .square {
+            width: 60px;
+            height: 60px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Advanced DOM Manipulation</h1>
+
+
+    <!-- ADVANCED TO-DO LIST -->
+
+    <div class="container">
+
+        <h2>Advanced To-Do List</h2>
+
+        <input type="text" id="taskInput"
+               placeholder="Enter your task">
+
+        <button id="addBtn">Add Task</button>
+
+        <ul id="taskList"></ul>
+
+    </div>
+
+
+    <!-- DYNAMIC CHESSBOARD -->
+
+    <div class="container">
+
+        <h2>Dynamic Chessboard</h2>
+
+        <div id="chessboard"></div>
+
+    </div>
+
+
+    <script>
+
+        // ADVANCED TO-DO LIST
+
+        let taskInput = document.getElementById("taskInput");
+
+        let taskList = document.getElementById("taskList");
+
+        let addBtn = document.getElementById("addBtn");
+
+
+        // Function to Add Task
+
+        addBtn.addEventListener("click", function() {
+
+            let task = taskInput.value.trim();
+
+            if (task === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            // Create list item
+
+            let li = document.createElement("li");
+
+
+            // Create left section
+
+            let left = document.createElement("div");
+
+            // Create checkbox
+
+            let checkbox = document.createElement("input");
+
+            checkbox.type = "checkbox";
+
+            // Create task text
+
+            let span = document.createElement("span");
+
+            span.textContent = task;
+
+
+            // Checkbox functionality
+
+            checkbox.addEventListener("change", function() {
+
+                if (checkbox.checked) {
+                    span.classList.add("completed");
+                }
+                else {
+                    span.classList.remove("completed");
+                }
+
+            });
+
+
+            left.appendChild(checkbox);
+
+            left.appendChild(span);
+
+
+            // Up Button
+
+            let upBtn = document.createElement("button");
+
+            upBtn.textContent = "Up";
+
+            upBtn.className = "up";
+
+            upBtn.addEventListener("click", function() {
+
+                let previous = li.previousElementSibling;
+
+                if (previous) {
+                    taskList.insertBefore(li, previous);
+                }
+
+            });
+
+
+            // Down Button
+
+            let downBtn = document.createElement("button");
+
+            downBtn.textContent = "Down";
+
+            downBtn.className = "down";
+
+            downBtn.addEventListener("click", function() {
+
+                let next = li.nextElementSibling;
+
+                if (next) {
+                    taskList.insertBefore(next, li);
+                }
+
+            });
+
+
+            // Delete Button
+
+            let deleteBtn = document.createElement("button");
+
+            deleteBtn.textContent = "Delete";
+
+            deleteBtn.className = "delete";
+
+            deleteBtn.addEventListener("click", function() {
+
+                li.remove();
+
+            });
+
+
+            // Add everything to list item
+
+            li.appendChild(left);
+
+            li.appendChild(upBtn);
+
+            li.appendChild(downBtn);
+
+            li.appendChild(deleteBtn);
+
+
+            taskList.appendChild(li);
+
+            taskInput.value = "";
+
+        });
+
+
+
+        // DYNAMIC CHESSBOARD
+
+        let chessboard = document.getElementById("chessboard");
+
+
+        // Generate 8 rows and 8 columns
+
+        for (let row = 0; row < 8; row++) {
+
+            for (let col = 0; col < 8; col++) {
+
+                // Create square
+
+                let square = document.createElement("div");
+
+                square.className = "square";
+
+
+                // Apply black and white colors
+
+                if ((row + col) % 2 === 0) {
+
+                    square.style.backgroundColor = "white";
+
+                }
+                else {
+
+                    square.style.backgroundColor = "black";
+
+                }
+
+
+                // Add square to chessboard
+
+                chessboard.appendChild(square);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
