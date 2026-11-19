@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asynchronous Programming</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            background-color: white;
+            width: 50%;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: darkblue;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+
+        #loading {
+            color: orange;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Asynchronous Programming</h1>
+
+        <h2>Server Data Fetching</h2>
+
+        <button onclick="fetchData()">Fetch Data</button>
+
+        <p id="loading"></p>
+
+        <div id="result"></div>
+
+    </div>
+
+
+    <script>
+
+
+        function fetchServerData() {
+
+            return new Promise(function(resolve, reject) {
+
+
+                setTimeout(function() {
+
+                    let data = {
+                        id: 101,
+                        name: "Harsh",
+                        course: "B.Tech",
+                        subject: "JavaScript"
+                    };
+
+
+                    resolve(data);
+
+                }, 3000);
+
+            });
+
+        }
+
+
+        function fetchData() {
+
+            let result = document.getElementById("result");
+
+            let loading = document.getElementById("loading");
+
+            result.innerHTML = "";
+
+            loading.innerHTML = "Fetching data from server...";
+
+
+            fetchServerData()
+
+                .then(function(data) {
+
+                    loading.innerHTML = "Data fetched successfully!";
+
+                    result.innerHTML =
+                        "<h3>Server Data:</h3>" +
+                        "ID: " + data.id + "<br>" +
+                        "Name: " + data.name + "<br>" +
+                        "Course: " + data.course + "<br>" +
+                        "Subject: " + data.subject;
+
+                })
+
+                .catch(function(error) {
+
+                    loading.innerHTML = "Error fetching data!";
+
+                });
+
+        }
+
+    </script>
+
+</body>
+</html>
